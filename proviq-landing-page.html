@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Proviq — B2B Server & Software Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f0ef;
+  --surface:#ffffff;
+  --text:#1a1a1a;
+  --muted:#6e6e6e;
+  --accent:#2d3440;
+  --accent2:#3d4a5c;
+  --line:#d8d8d4;
+  --primary:#4a5568;
+  --primary-light:#eaedf2;
+  --primary-dark:#1e2530;
+  --highlight:#6b7a8f;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.7;overflow-x:hidden}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulseGreen{0%,100%{box-shadow:0 0 0 0 rgba(74,196,130,0.4)}50%{box-shadow:0 0 0 8px rgba(74,196,130,0)}}
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink{50%{border-color:transparent}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1)}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(40px);transition:opacity 0.7s cubic-bezier(.22,1,.36,1),transform 0.7s cubic-bezier(.22,1,.36,1)}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(240,240,239,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px;transition:box-shadow 0.3s}
+nav.scrolled{box-shadow:0 2px 20px rgba(0,0,0,0.08)}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.5px;color:var(--accent)}
+.logo span{color:var(--highlight)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;transition:color 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--primary);transition:width 0.3s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--accent);color:#fff;border:none;padding:10px 22px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all 0.2s}
+.nav-cta:hover{background:var(--primary);transform:translateY(-1px)}
+
+section{padding:100px 5%}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:120px;position:relative;overflow:hidden;background:var(--accent)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:60px 60px;animation:fadeIn 2s ease}
+.hero-particles{position:absolute;inset:0;overflow:hidden}
+.hero-particles::before,.hero-particles::after{content:'';position:absolute;border-radius:50%;background:rgba(107,122,143,0.15)}
+.hero-particles::before{width:600px;height:600px;top:-200px;right:-100px;animation:float 8s ease-in-out infinite}
+.hero-particles::after{width:400px;height:400px;bottom:-150px;left:-100px;animation:float 10s ease-in-out infinite reverse}
+.hero-content{position:relative;z-index:2;max-width:820px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.7);font-size:12px;font-weight:500;padding:6px 14px;border-radius:100px;margin-bottom:32px;letter-spacing:0.5px;text-transform:uppercase;animation:fadeUp 0.8s ease both}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#4ac482;display:inline-block;animation:pulseGreen 2s infinite}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(42px,7vw,78px);color:#fff;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;animation:fadeUp 0.8s 0.1s ease both}
+.hero h1 em{color:#8fa3bb;font-style:normal}
+.type-wrap{display:inline-block;overflow:hidden;white-space:nowrap;border-right:3px solid #8fa3bb;animation:typing 2s steps(20,end) 0.5s both,blink 0.75s step-end 2.5s infinite}
+.hero p{font-size:18px;color:rgba(255,255,255,0.55);max-width:520px;margin-bottom:40px;line-height:1.85;font-weight:300;animation:fadeUp 0.8s 0.2s ease both}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;animation:fadeUp 0.8s 0.3s ease both}
+.btn-primary{background:#fff;color:var(--accent);padding:14px 28px;border-radius:6px;font-weight:600;font-size:15px;border:none;cursor:pointer;transition:all 0.25s;font-family:'DM Sans',sans-serif}
+.btn-primary:hover{background:#f0f0f0;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+.btn-outline{background:transparent;color:#fff;padding:14px 28px;border-radius:6px;font-weight:500;font-size:15px;border:1px solid rgba(255,255,255,0.22);cursor:pointer;transition:all 0.25s;font-family:'DM Sans',sans-serif}
+.btn-outline:hover{border-color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.05)}
+.hero-stats{position:relative;z-index:2;display:flex;gap:48px;margin-top:80px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.09);flex-wrap:wrap;animation:fadeUp 0.8s 0.4s ease both}
+.stat-num{font-family:'Syne',sans-serif;font-size:32px;font-weight:700;color:#fff}
+.stat-label{font-size:13px;color:rgba(255,255,255,0.38);margin-top:2px}
+
+.about{background:var(--surface)}
+.section-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--highlight);margin-bottom:16px}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(28px,4vw,44px);color:var(--accent);line-height:1.15;letter-spacing:-1px;margin-bottom:20px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-text p{color:var(--muted);font-size:17px;line-height:1.85;margin-bottom:16px;font-weight:300}
+.about-team{margin-top:32px;display:flex;gap:16px;flex-wrap:wrap}
+.team-card{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:10px;padding:12px 16px;transition:all 0.25s;cursor:default}
+.team-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.team-avatar{width:44px;height:44px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--primary);flex-shrink:0}
+.team-name{font-size:14px;font-weight:600;color:var(--text)}
+.team-role{font-size:12px;color:var(--muted)}
+.about-visual{background:var(--bg);border-radius:16px;padding:40px;display:flex;flex-direction:column;gap:16px}
+.about-pill{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 20px;display:flex;align-items:center;gap:14px;transition:all 0.25s;cursor:default}
+.about-pill:hover{border-color:var(--highlight);transform:translateX(4px);box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.pill-icon{width:40px;height:40px;border-radius:8px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.pill-text{font-size:14px;font-weight:500;color:var(--text)}
+.pill-sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+.services{background:var(--bg)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.service-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:32px;transition:all 0.3s;cursor:default;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--primary-light),transparent);opacity:0;transition:opacity 0.3s}
+.service-card:hover{border-color:var(--highlight);transform:translateY(-6px);box-shadow:0 16px 48px rgba(74,85,104,0.15)}
+.service-card:hover::before{opacity:1}
+.service-icon{width:52px;height:52px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:24px;font-size:22px;transition:transform 0.3s;position:relative;z-index:1}
+.service-card:hover .service-icon{transform:scale(1.1) rotate(-5deg)}
+.service-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--accent);margin-bottom:12px;position:relative;z-index:1}
+.service-card p{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:16px;position:relative;z-index:1}
+.service-tag{display:inline-block;background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;margin-right:6px;margin-top:4px;position:relative;z-index:1}
+
+.why{background:var(--surface)}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:56px}
+.why-item{display:flex;gap:20px;align-items:flex-start;padding:28px;border:1px solid var(--line);border-radius:12px;transition:all 0.3s}
+.why-item:hover{border-color:var(--highlight);box-shadow:0 8px 32px rgba(74,85,104,0.1);transform:translateY(-2px)}
+.why-num{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--primary-light);min-width:40px;line-height:1;transition:color 0.3s}
+.why-item:hover .why-num{color:var(--highlight)}
+.why-body h4{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--accent);margin-bottom:8px}
+.why-body p{font-size:14px;color:var(--muted);line-height:1.7}
+
+.how{background:var(--accent)}
+.how .section-label{color:#6dc98a}
+.how .section-title{color:#fff}
+.steps{display:flex;gap:0;margin-top:64px;position:relative}
+.steps::before{content:'';position:absolute;top:28px;left:56px;right:56px;height:1px;background:rgba(255,255,255,0.1)}
+.step{flex:1;text-align:center;position:relative;padding:0 24px}
+.step-num{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;margin:0 auto 24px;position:relative;z-index:2;transition:all 0.3s}
+.step:hover .step-num{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.4);transform:scale(1.1)}
+.step h3{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#fff;margin-bottom:10px}
+.step p{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7}
+
+.testimonials{background:var(--bg)}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.tcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px;transition:all 0.3s}
+.tcard:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(74,85,104,0.12);border-color:var(--highlight)}
+.tcard p{font-size:15px;color:var(--muted);line-height:1.8;font-style:italic;margin-bottom:20px;font-weight:300}
+.tcard-author{display:flex;align-items:center;gap:12px}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--primary)}
+.author-name{font-weight:600;font-size:14px;color:var(--text)}
+.author-role{font-size:12px;color:var(--muted)}
+
+.pricing{background:var(--surface)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.price-card{border:1px solid var(--line);border-radius:16px;padding:36px 28px;position:relative;transition:all 0.3s;background:var(--surface)}
+.price-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(74,85,104,0.12)}
+.price-card.featured{border:2px solid var(--primary);background:var(--primary-light)}
+.popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--primary);color:#fff;font-size:11px;font-weight:600;padding:4px 16px;border-radius:100px;white-space:nowrap;letter-spacing:0.5px;text-transform:uppercase}
+.plan-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--accent);margin-bottom:8px}
+.plan-price{font-family:'Syne',sans-serif;font-weight:800;font-size:40px;color:var(--accent);line-height:1;margin-bottom:4px}
+.plan-price span{font-size:16px;font-weight:400;color:var(--muted)}
+.plan-desc{font-size:13px;color:var(--muted);margin-bottom:28px}
+.plan-features{list-style:none;margin-bottom:32px;display:flex;flex-direction:column;gap:10px}
+.plan-features li{font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.plan-features li::before{content:'✓';color:var(--primary);font-weight:700}
+.plan-btn{width:100%;padding:12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all 0.25s}
+.plan-btn-outline{background:transparent;border:1px solid var(--line);color:var(--accent)}
+.plan-btn-outline:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-1px)}
+.plan-btn-solid{background:var(--primary);border:none;color:#fff}
+.plan-btn-solid:hover{background:var(--accent);transform:translateY(-1px)}
+
+.contact{background:var(--bg)}
+.contact-inner{background:var(--accent);border-radius:20px;padding:72px 5%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-text .section-label{color:#6dc98a}
+.contact-text .section-title{color:#fff}
+.contact-text p{color:rgba(255,255,255,0.5);font-size:16px;line-height:1.8;font-weight:300;margin-top:16px}
+.contact-info{margin-top:32px;display:flex;flex-direction:column;gap:16px}
+.contact-info-item{display:flex;align-items:flex-start;gap:12px}
+.ci-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ci-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.3);margin-bottom:2px}
+.ci-value{font-size:14px;color:rgba(255,255,255,0.75);font-weight:400}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.contact-form input,.contact-form textarea,.contact-form select{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.13);border-radius:8px;padding:14px 16px;color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:all 0.25s;width:100%}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,0.3)}
+.contact-form select option{background:#2d3440;color:#fff}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{border-color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.1)}
+.contact-form textarea{resize:none;height:110px}
+.contact-form button{background:#fff;color:var(--accent);border:none;border-radius:8px;padding:14px;font-weight:600;font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.25s}
+.contact-form button:hover{background:#f0f0f0;transform:translateY(-1px)}
+
+footer{background:var(--accent);padding:48px 5%;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,0.08);flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:#fff}
+.footer-logo span{color:#8fa3bb}
+.footer-links{display:flex;gap:24px;list-style:none}
+.footer-links a{text-decoration:none;font-size:13px;color:rgba(255,255,255,0.35);transition:color 0.2s}
+.footer-links a:hover{color:rgba(255,255,255,0.75)}
+.footer-copy{font-size:13px;color:rgba(255,255,255,0.25)}
+
+@media(max-width:768px){
+  .about-grid,.why-grid,.contact-inner{grid-template-columns:1fr;gap:40px}
+  .services-grid,.testimonials-grid,.pricing-grid{grid-template-columns:1fr}
+  .steps{flex-direction:column;gap:32px}
+  .steps::before{display:none}
+  .nav-links{display:none}
+  .hero-stats{gap:24px}
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="logo">Pro<span>viq</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <!-- <button class="nav-cta">Book a Demo</button> -->
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span> Trusted by 200+ companies worldwide</div>
+    <h1>Enterprise Server &amp;<br/><span class="type-wrap">Software <em>Delivered.</em></span></h1>
+    <p>Proviq provides B2B companies with robust server infrastructure and tailored software solutions — built for scale, security, and speed.</p>
+    <div class="hero-btns">
+      <button class="btn-primary">Get Started Free</button>
+      <button class="btn-outline">Book a Demo →</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num" data-target="99.99" data-suffix="%">0%</div><div class="stat-label">Uptime SLA</div></div>
+    <div><div class="stat-num counter" data-target="200" data-suffix="+">0+</div><div class="stat-label">B2B Clients</div></div>
+    <div><div class="stat-num counter" data-target="40" data-suffix="ms">0ms</div><div class="stat-label">Avg. Latency</div></div>
+    <div><div class="stat-num">24/7</div><div class="stat-label">Expert Support</div></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal-left">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title">Built by engineers, for businesses that can't afford failure</h2>
+      <p>Proviq was founded in 2019 by a team of infrastructure engineers who saw companies waste time, money, and momentum on unreliable servers and fragmented software delivery. We decided to fix that.</p>
+      <p>Today, Proviq powers over 200 B2B companies across fintech, logistics, healthcare, and SaaS — delivering dedicated server infrastructure and enterprise software with zero-compromise reliability.</p>
+      <p>Our team of 85+ engineers, DevOps specialists, and support professionals work around the clock to ensure your business runs without interruption.</p>
+      <div class="about-team">
+        <div class="team-card reveal" style="transition-delay:0.1s">
+          <div class="team-avatar">MU</div>
+          <div><div class="team-name">Mohammed umar</div><div class="team-role">CEO & Co-founder</div></div>
+        </div>
+        <div class="team-card reveal" style="transition-delay:0.2s">
+          <div class="team-avatar">SH</div>
+          <div><div class="team-name">SH</div><div class="team-role">CTO & Co-founder</div></div>
+        </div>
+        <div class="team-card reveal" style="transition-delay:0.3s">
+          <div class="team-avatar">MI</div>
+          <div><div class="team-name">Inam</div><div class="team-role">Head of Security</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual reveal-right">
+      <div class="about-pill"><div class="pill-icon">🖥️</div><div><div class="pill-text">Dedicated Servers</div><div class="pill-sub">Provisioned in under 2 hours</div></div></div>
+      <div class="about-pill"><div class="pill-icon">⚙️</div><div><div class="pill-text">Custom Software Delivery</div><div class="pill-sub">Tailored deployment pipelines</div></div></div>
+<!-- 
+      <div class="about-pill"><div class="pill-icon">🔒</div><div><div class="pill-text">ISO 27001 Certified</div><div class="pill-sub">GDPR & SOC 2 Type II compliant</div></div></div> -->
+
+      
+      <div class="about-pill"><div class="pill-icon">💾</div><div><div class="pill-text">Automated Backup & Recovery</div><div class="pill-sub">Secure data protection with rapid restoration </div></div></div>
+
+      <div class="about-pill"><div class="pill-icon">🌍</div><div><div class="pill-text">Global Data Centers</div><div class="pill-sub">12 locations across 4 continents</div></div></div>
+      <div class="about-pill"><div class="pill-icon">📈</div><div><div class="pill-text">Instant Scalability</div><div class="pill-sub">Scale up or down in real time</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="reveal">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">End-to-end infrastructure & software solutions</h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal" style="transition-delay:0.05s"><div class="service-icon">🖥️</div><h3>Dedicated Server Hosting</h3><p>Bare-metal and virtual dedicated servers with guaranteed compute, memory, and storage — provisioned in under 2 hours. Full root access, custom OS configs, and zero resource contention.</p><div><span class="service-tag">Bare Metal</span><span class="service-tag">VPS</span><span class="service-tag">SSD NVMe</span></div></div>
+    <div class="service-card reveal" style="transition-delay:0.1s"><div class="service-icon">📦</div><h3>Software Delivery & Licensing</h3><p>We handle the full software lifecycle — from deployment automation and version management to license compliance tracking and renewal alerts across all departments.</p><div><span class="service-tag">CI/CD</span><span class="service-tag">License Mgmt</span><span class="service-tag">Auto-updates</span></div></div>
+    <div class="service-card reveal" style="transition-delay:0.15s"><div class="service-icon">☁️</div><h3>Hybrid Cloud Integration</h3><p>Seamlessly bridge your on-premise servers with AWS, Azure, or GCP. Unified networking, cost optimization, and centralized management across your entire hybrid stack.</p><div><span class="service-tag">AWS</span><span class="service-tag">Azure</span><span class="service-tag">Multi-cloud</span></div></div>
+    <div class="service-card reveal" style="transition-delay:0.2s"><div class="service-icon">🛡️</div><h3>Security & Compliance Suite</h3><p>Enterprise-grade protection with end-to-end encryption, DDoS mitigation, firewall management, vulnerability scanning, and automated compliance reporting for GDPR, HIPAA, and PCI-DSS.</p><div><span class="service-tag">DDoS Protection</span><span class="service-tag">GDPR</span><span class="service-tag">HIPAA</span></div></div>
+    <div class="service-card reveal" style="transition-delay:0.25s"><div class="service-icon">📊</div><h3>Real-Time Monitoring & Analytics</h3><p>Live dashboards tracking CPU, memory, disk I/O, and network performance. Intelligent alerting with sub-minute response times and detailed monthly performance reports.</p><div><span class="service-tag">Live Alerts</span><span class="service-tag">Dashboards</span><span class="service-tag">SLA Reports</span></div></div>
+    <div class="service-card reveal" style="transition-delay:0.3s"><div class="service-icon">🤝</div><h3>Dedicated Managed Support</h3><p>A named account manager, 24/7 technical helpdesk, and quarterly infrastructure reviews. Average first-response under 8 minutes. We treat your infrastructure like our own.</p><div><span class="service-tag">24/7 Support</span><span class="service-tag">SLA Backed</span><span class="service-tag">Named Manager</span></div></div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="reveal">
+    <div class="section-label">Why Proviq</div>
+    <h2 class="section-title">Why 200+ companies choose us</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item reveal" style="transition-delay:0.05s"><div class="why-num">01</div><div class="why-body"><h4>99.99% Uptime SLA — Guaranteed</h4><p>We back every contract with a financially guaranteed SLA. Redundant power, network, and hardware failover at every data center means your business never goes dark.</p></div></div>
+    <div class="why-item reveal" style="transition-delay:0.1s"><div class="why-num">02</div><div class="why-body"><h4>Built Exclusively for B2B</h4><p>Every feature, support model, and contract structure is designed for B2B needs — with multi-user access controls, team billing, and enterprise integrations built in.</p></div></div>
+    <div class="why-item reveal" style="transition-delay:0.15s"><div class="why-num">03</div><div class="why-body"><h4>Transparent, Flat-Rate Pricing</h4><p>No hidden fees, no egress charges, no surprise bills. Flat monthly pricing scales predictably as your team grows — with full cost breakdowns in your dashboard.</p></div></div>
+    <div class="why-item reveal" style="transition-delay:0.2s"><div class="why-num">04</div><div class="why-body"><h4>2-Hour Provisioning, Always</h4><p>From contract signed to live server — in under 2 hours. Our fully automated provisioning engine eliminates days of setup so your team ships faster from day one.</p></div></div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="reveal">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Live in 3 simple steps</h2>
+  </div>
+  <div class="steps">
+    <div class="step reveal" style="transition-delay:0.05s"><div class="step-num">1</div><h3>Discovery Call</h3><p>Book a free 30-minute call. Our engineers assess your infrastructure, traffic patterns, and goals to build the right solution for you.</p></div>
+    <div class="step reveal" style="transition-delay:0.15s"><div class="step-num">2</div><h3>We Build Your Stack</h3><p>Our team configures, provisions, and stress-tests your dedicated servers and software pipeline — fully ready before handover.</p></div>
+    <div class="step reveal" style="transition-delay:0.25s"><div class="step-num">3</div><h3>Go Live & Scale</h3><p>Launch with confidence. We monitor 24/7 and scale your infrastructure on demand as your business grows — with no disruption, ever.</p></div>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+  <div class="reveal">
+    <div class="section-label">What Clients Say</div>
+    <h2 class="section-title">Trusted by teams that can't afford downtime</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="tcard reveal" style="transition-delay:0.05s"><p>"We moved 40 production servers to Proviq with zero downtime. Their team handled every detail — migration, testing, and go-live. I've never seen a smoother infrastructure transition."</p><div class="tcard-author"><div class="avatar">JK</div><div><div class="author-name">James Kim</div><div class="author-role">CTO, NexaOps — Logistics SaaS</div></div></div></div>
+    <div class="tcard reveal" style="transition-delay:0.1s"><p>"Proviq's software delivery pipeline cut our deployment time by 80%. What used to take a full day now runs automatically in under 20 minutes. Absolutely game-changing."</p><div class="tcard-author"><div class="avatar">SL</div><div><div class="author-name">Sara Liang</div><div class="author-role">VP Engineering, CoreLogix — Fintech</div></div></div></div>
+    <div class="tcard reveal" style="transition-delay:0.15s"><p>"Their 24/7 team responded to a critical server issue at 3am and had us back online in 11 minutes. That kind of reliability is why we've stayed with Proviq for 4 years."</p><div class="tcard-author"><div class="avatar">AM</div><div><div class="author-name">Ahmed Malik</div><div class="author-role">Head of IT, Stackra — Healthcare Tech</div></div></div></div>
+  </div>
+</section>
+<!-- price tag -->
+<!-- <section class="pricing" id="pricing">
+  <div class="reveal">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Simple, transparent B2B pricing</h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card reveal" style="transition-delay:0.05s"><div class="plan-name">Starter</div><div class="plan-price">$299<span>/mo</span></div><div class="plan-desc">For small teams getting started</div><ul class="plan-features"><li>2 Dedicated Servers</li><li>50GB NVMe Storage</li><li>5TB Bandwidth</li><li>Basic Monitoring Dashboard</li><li>Software Delivery (up to 3 apps)</li><li>Email Support (business hours)</li></ul><button class="plan-btn plan-btn-outline">Get Started</button></div>
+    <div class="price-card featured reveal" style="transition-delay:0.1s"><div class="popular-badge">Most Popular</div><div class="plan-name">Business</div><div class="plan-price">$799<span>/mo</span></div><div class="plan-desc">For growing companies at scale</div><ul class="plan-features"><li>10 Dedicated Servers</li><li>500GB NVMe Storage</li><li>Unlimited Bandwidth</li><li>Advanced Monitoring & Alerts</li><li>Full Software Delivery Suite</li><li>Security & Compliance Package</li><li>24/7 Priority Support</li><li>Named Account Manager</li></ul><button class="plan-btn plan-btn-solid">Get Started</button></div>
+    <div class="price-card reveal" style="transition-delay:0.15s"><div class="plan-name">Enterprise</div><div class="plan-price">Custom</div><div class="plan-desc">For large-scale operations</div><ul class="plan-features"><li>Unlimited Dedicated Servers</li><li>Custom Storage & Bandwidth</li><li>Full Security Suite (HIPAA/PCI)</li><li>Hybrid Cloud Integration</li><li>Dedicated Account Manager</li><li>99.99% SLA Guarantee</li><li>Custom Integrations & APIs</li><li>Quarterly Infrastructure Reviews</li></ul><button class="plan-btn plan-btn-outline">Contact Sales</button></div>
+  </div>
+</section> -->
+
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-text reveal-left">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Let's power your business</h2>
+      <p>Tell us about your infrastructure needs and a Proviq engineer will get back to you within 4 business hours with a tailored proposal — no sales fluff, just solutions.</p>
+      <div class="contact-info">
+        <div class="contact-info-item"><div class="ci-icon">📧</div><div><div class="ci-label">Email Us</div><div class="ci-value">hello@proviq.io</div></div></div>
+        <div class="contact-info-item"><div class="ci-icon">📞</div><div><div class="ci-label">Call Us</div><div class="ci-value">+1 (800) 477-6847</div></div></div>
+        <div class="contact-info-item"><div class="ci-icon">📍</div><div><div class="ci-label">Headquarters</div><div class="ci-value">340 Pine Street, Suite 800<br/>San Francisco, CA 94104, USA</div></div></div>
+        <div class="contact-info-item"><div class="ci-icon">🕐</div><div><div class="ci-label">Business Hours</div><div class="ci-value">Mon – Fri, 9am – 6pm PST<br/>Technical support available 24/7</div></div></div>
+      </div>
+    </div>
+    <div class="contact-form reveal-right">
+      <input type="text" placeholder="Your Full Name"/>
+      <input type="text" placeholder="Company Name"/>
+      <input type="email" placeholder="Work Email Address"/>
+      <input type="text" placeholder="Phone Number (optional)"/>
+      <select><option value="" disabled selected>Service you're interested in...</option><option>Dedicated Server Hosting</option><option>Software Delivery & Licensing</option><option>Hybrid Cloud Integration</option><option>Security & Compliance Suite</option><option>Monitoring & Analytics</option><option>Managed Support</option><option>Enterprise / Custom Plan</option></select>
+      <textarea placeholder="Tell us about your infrastructure needs, team size, and requirements..."></textarea>
+      <button type="button">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Pro<span>viq</span></div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Terms of Service</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Proviq Inc. All rights reserved.</div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = performance.now();
+  const isDecimal = target % 1 !== 0;
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const val = target * ease;
+    el.textContent = (isDecimal ? val.toFixed(2) : Math.floor(val)) + suffix;
+    if(progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting && e.target.dataset.target){
+      animateCounter(e.target);
+      counterObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObs.observe(el));
+</script>
+</body>
+</html>
